@@ -1,0 +1,11 @@
+{:* Copyright (C) 2025 Francisco Bartolo (See LICENCE) *:}
+
+{:^include; {:flg; require :} >> {:;COMPONENT_DIR:}/rrss/neutral/snippets.ntpl :}
+
+{:snip; theme-body-carousel >> :}
+
+{:snip; theme-body-main-content >>
+    {:snip; play-rrss-ajax :}
+:}
+
+{:^;:}

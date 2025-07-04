@@ -1,0 +1,89 @@
+{:* Copyright (C) 2025 Francisco Bartolo (See LICENCE) *:}
+
+{:snip; rrss-urls-buttons >>
+    {:each; rrss_urls name url >>
+        <button class="btn btn-sm btn-light neutral-fetch-click click-load-spin my-1 me-1"
+            data-url="/rrss/ajax/{:;name:}"
+            data-wrap="rrss-wrapper"
+            onclick="setTimeout(()=>{window.scrollTo(0, 0);}, 350);"
+        > {:;name:}</button>
+    :}
+:}
+
+{:snip; theme-body-main-content >>
+    {:bool; dispatch_result >>
+        <div id="rrss-wrapper" class="rrss-wrapper">
+            <h1 class="">{:;rrss_feed_feed->title:}</h1>
+            <div class="lead mb-2">{:;rrss_feed_feed->subtitle:}</div>
+
+            {:snip; rrss-urls-buttons :}
+
+            {:coalesce;
+                {:bool; rrss_yups_start >>
+                    <div class="row py-4 border-bottom mb-4">
+                        <div class="col-12">
+                            <div id="widget-container"></div>
+                        </div>
+                    </div>
+                    <div class="script-container" data-hash="{:;script_container_hash:}">
+                        <script>playWidgetsTelegram({:;rrss_yups_start:}, {:;rrss_yups_num:});</script>
+                    </div>
+                :}
+                {:each; rrss_feed_entries key entry >>
+                    <div class="row py-4 border-bottom mb-4">
+                        <div class="col-12">
+                            <a href="https://duckduckgo.com/?ia=web&q={:replace; /"/ / >> {:;entry->title:} :}" target="_blank" class="text-decoration-none">
+                                <h4 class="">{:;entry->title:}</h4>
+                            </a>
+                            <div class="mb-2">
+                                <a href="{:;entry->link:}" target="_blank" class="text-decoration-none" style="overflow-wrap: anywhere; hyphens: auto; max-width: 100%;">
+                                    <span class="text-muted small">{:;entry->link:}</span>
+                                </a>
+                            </div>
+                            <div class="mb-2">
+                                {:coalesce;
+                                    {:;entry->summary:}
+                                    {:;entry->description:}
+                                :}
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-8 mt-2">
+                            {:filled; entry->tags->0 >>
+                                <span class="badge rounded-pill bg-primary">{:;entry->tags->0->term:}</span>
+                            :}
+                        </div>
+                        <div class="col-12 col-md-4 text-end mt-2">
+                            <span class="ms-auto badge rounded-pill bg-light published-date">{:;entry->published:}</span>
+                        </div>
+                    </div>
+                :}
+                {:code;
+                    <div class="form-text text-center alert alert-dismissible alert-light py-3 mt-3">
+                        <span class="{:;local::icon-error:}"></span> {:trans; No publications :}
+                    </div>
+                :}
+            :}
+
+            <div id="rrss-wrapper-next" class="mb-3 rrss-wrapper">
+                <div class="text-center">
+                    {:each; rrss_urls name url >>
+                        <button class="btn btn-sm btn-light neutral-fetch-click click-load-spin my-1 me-1"
+                            data-url="/rrss/ajax/{:;name:}"
+                            data-wrap="rrss-wrapper-next"
+                        ><span class="{:;local::icon-down:}"></span> {:;name:}</button>
+                    :}
+                </div>
+            </div>
+        <div>
+    :}{:else;
+        <div id="rrss-wrapper">
+            <h1 class="">RSS Error</h1>
+            {:snip; rrss-urls-buttons :}
+            <div class="form-text alert alert-dismissible alert-danger" >
+                <span class="{:;local::icon-error:}"></span> ERROR: {:trans; {:;rrss_feed_error:} :}
+            </div>
+        </div>
+    :}
+:}
+
+{:^;:}

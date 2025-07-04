@@ -1,0 +1,39 @@
+{
+    "inherit": {
+        "data": {
+            "menu": {
+                "session:": {
+                    "channel": {
+                        "rrss": {
+                            "text": "Read RSS",
+                            "link": "/rrss",
+                            "icon": "icon-home"
+                        }
+                    }
+                },
+                "session:true": {
+                    "channel": {
+                        "rrss": {
+                            "text": "Read RSS",
+                            "link": "/rrss",
+                            "icon": "icon-home"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "data": {
+        "rrss_default": "https://www.meneame.net/rss",
+        "rrss_urls": {
+            "meneame": "https://www.meneame.net/rss",
+            "meneame cola": "https://www.meneame.net/rss?status=queued",
+            "meneame activas": "https://www.meneame.net/rss?active",
+            "mediatize": "https://www.mediatize.info/rss",
+            "reddit": "https://www.reddit.com/r/news/.rss",
+            "tardigram": "https://tardigram.com/rss",
+            "yups": "https://tg.i-c-a.su/rss/yupsrespaldo?limit=1",
+            "killbait": "https://killbait.com/feed-es.php"
+        }
+    }
+}

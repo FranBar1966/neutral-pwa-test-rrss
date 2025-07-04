@@ -1,0 +1,67 @@
+{:* Copyright (C) 2025 Francisco Bartolo (See LICENCE) *:}
+
+{:moveto; /body >>
+    <script>
+        function rrss_feed_script() {
+            document.querySelectorAll('.rrss-wrapper').forEach(wrapper => {
+                wrapper.querySelectorAll('a').forEach(ele => {
+                    ele.setAttribute('target', '_blank');
+                    ele.setAttribute('rel', 'noopener noreferrer');
+                });
+            });
+            document.querySelectorAll('.published-date').forEach(span => {
+                const fechaUTC = span.textContent;
+                const fechaLocal = new Date(fechaUTC);
+                span.textContent = fechaLocal.toLocaleString(undefined, {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                }).replace(",", "");
+            });
+        }
+        window.addEventListener('neutralFetchCompleted', function(evt) {
+            rrss_feed_script()
+        });
+        window.addEventListener('load', (event) => {
+            rrss_feed_script()
+        });
+
+        function playWidgetsTelegram(start, numpost) {
+            const contenedor = document.getElementById('widget-container');
+            if (!contenedor) {
+                console.error('No se encontró el contenedor con ID "widget-container"');
+                return;
+            }
+
+            const end = start - numpost + 1;
+
+            for (let n = start; n >= end; n--) {
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://telegram.org/js/telegram-widget.js?22';
+                script.setAttribute('data-telegram-post', `yupsrespaldo/${n}`);
+                script.setAttribute('data-width', '100%');
+                contenedor.appendChild(script);
+            }
+        }
+    </script>
+:}
+
+{:moveto; /head >>
+    <style>
+        .rrss-wrapper img {
+            width: 180px !important;
+            padding: 5px;
+            height: auto;
+        }
+    </style>
+:}
+
+{:snip; play-rrss-ajax >>
+    {:fetch; |/rrss/ajax/{:coalesce; {:;CONTEXT->GET->rss:} {:;name_rss:} :}|visible| >>
+        <div class="text-center p-5">{:snip; spin-2x :}</div>
+    :}
+:}
